@@ -1,0 +1,78 @@
+
+CREATE DATABASE Projeto1
+
+CREATE TABLE Username
+(
+	ID_Login INT PRIMARY KEY IDENTITY,
+	 Usuario Varchar(10) NOT NULL,
+	 Senha VARCHAR(15) NOT NULL,
+)
+	
+CREATE TABLE Usuario (
+	ID_Usuario INT PRIMARY KEY IDENTITY,
+	Idade INT NOT NULL,
+	Nome VARCHAR(50) NOT NULL,
+	Email Varchar(50) NOT NULL,
+	Telefone INT NOT NULL,
+	Data_Conta Date NOT NULL,
+	ID_Login INT NOT NULL,
+	CONSTRAINT FK_Codigo_Username FOREIGN KEY (ID_Login) REFERENCES Username(ID_Login)
+
+)
+CREATE TABLE Pessoa (
+	ID_Cliente INT PRIMARY KEY IDENTITY,
+	Endereco VARCHAR(40) NOT NULL,
+	CPF INT NOT NULL,
+	ID_Usuario INT NOT NULL,
+	CONSTRAINT FK_Codigo_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario),
+)
+
+
+CREATE TABLE Pedido (
+	ID_Pedido INT PRIMARY KEY IDENTITY,
+	Valor_Total Decimal NOT NULL,
+	Situacao Varchar(15) NOT NULL,
+	ID_Cliente INT NOT NULL,
+	CONSTRAINT FK_Codigo_Cliente FOREIGN KEY (ID_Cliente) REFERENCES Pessoa(ID_Cliente),
+)
+
+CREATE TABLE Produto (
+	ID_Produto INT PRIMARY KEY IDENTITY,
+	Nome_Produto Varchar(40) NOT NULL,
+	Preco_Venda Decimal NOT NULL,
+	Preco_Compra Decimal NOT NULL,
+)
+
+CREATE TABLE Produto_Pedido_Saida (
+	Codigo_Pedido INT REFERENCES Pedido(ID_Pedido),
+	Codigo_Produto INT REFERENCES Produto(ID_Produto),
+	CONSTRAINT PK_Pedido_Produto PRIMARY KEY (Codigo_Pedido, Codigo_Produto),	
+	Data_Saida Datetime NOT NULL,
+	Quantidade_Saida INT NOT NULL,
+
+)
+
+CREATE TABLE Fornecedor (
+	ID_Fornecedor INT PRIMARY KEY IDENTITY,
+	Telefone_Fornecedor INT NOT NULL,
+	Nome_Fornecedor Varchar(50) NOT NULL,
+)
+
+CREATE TABLE Fornecedor_Produto_Entrada (
+	Codigo_Produto INT REFERENCES Produto(ID_Produto),
+	Codigo_Fornecedor INT REFERENCES Fornecedor(ID_Fornecedor),
+	CONSTRAINT PK_Fornecedor_Produto PRIMARY KEY (Codigo_Produto, Codigo_Fornecedor),
+	Quantidade_Entrada INT NOT NULL,
+	Data_Entrada Datetime NOT NULL,
+)
+
+CREATE TABLE Estoque (
+	ID_Estoque INT PRIMARY KEY IDENTITY,
+	Quantidade_Estoque INT NOT NULL,
+)
+
+CREATE TABLE Estoque_Produto (
+	Codigo_Produto INT REFERENCES Produto(ID_Produto),
+	Codigo_Estoque INT REFERENCES Estoque(ID_Estoque),
+	CONSTRAINT PK_Estoque_Produto PRIMARY KEY(Codigo_Produto, Codigo_Estoque),
+)
