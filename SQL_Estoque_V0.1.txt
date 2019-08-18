@@ -10,10 +10,8 @@ CREATE TABLE Username
 	
 CREATE TABLE Usuario (
 	ID_Usuario INT PRIMARY KEY IDENTITY,
-	Idade INT NOT NULL,
 	Nome VARCHAR(50) NOT NULL,
 	Email Varchar(50) NOT NULL,
-	Telefone INT NOT NULL,
 	Data_Conta Date NOT NULL,
 	ID_Login INT NOT NULL,
 	CONSTRAINT FK_Codigo_Username FOREIGN KEY (ID_Login) REFERENCES Username(ID_Login)
